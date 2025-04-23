@@ -36,7 +36,7 @@ public class Vigenere {
     }
 
     //* Private functions.
-    private void default_range(){
+    private void default_range(){ // Sets the default range for int value of characters.
         max_Char_Val = 90;
         min_Char_Val = 65;
         char_Range = max_Char_Val-min_Char_Val+1;
@@ -44,21 +44,20 @@ public class Vigenere {
 
     private void set_Random(long seed){ // Set the seed value for randomizing the cipher square.
 
-        if (seed == 0){
+        if (seed == 0){ // Use time for random-ish seed.
             seed = System.currentTimeMillis();
-            rand = new Random(seed);
         }
-        else {
-            rand = new Random(seed);
+        else { // Set a custom seed
             seed_Val = seed;
         }
+
+        rand = new Random(seed);
     }
 
     private void create_Vigenere(long seed){ // Creates a version of the vigenere square cipher as a map with characters as keys and vectors of chars as the rows.
         Vector <Character> row;
         set_Random(seed);
         
-
         encrypt = new HashMap<Character, Vector <Character>>();
 
         for (int i = min_Char_Val; i < max_Char_Val+1; ++i){  
@@ -112,13 +111,13 @@ public class Vigenere {
 
     public String encrypt_Message(String message){ // Encrypts the message using the map.
         String encrypted_Message_Rtn = new String();
+        int key_Length = key.length();
+
         message = message.strip();
         if (min_Char_Val == 65 && max_Char_Val == 90){
             message = message.toUpperCase(); 
         }
         
-        
-        int key_Length = key.length();
         if (key.isEmpty()){
             System.err.println("There is no key set for Vigenere. Call the function '[your Vigenere variable name].set_Key'");
         }
@@ -138,14 +137,13 @@ public class Vigenere {
             }
         }
 
-
         return encrypted_Message_Rtn;
     }
 
     public void print_Square_For_Manual_Decrypt(){ // Prints the square for the user to manually decrypt.
-        
         String out = new String();
-        for (int i = min_Char_Val; i < max_Char_Val+1; ++i){
+
+        for (int i = min_Char_Val; i < max_Char_Val+1; ++i){ // Print the top row in the terminal. This row shows every character in order based on their int value.
             out += ((char)i);
             out += ' ';
             System.out.print(out);
@@ -153,7 +151,7 @@ public class Vigenere {
         }
         System.out.println();
 
-        for (int key = min_Char_Val; key < max_Char_Val+1; ++key){
+        for (int key = min_Char_Val; key < max_Char_Val+1; ++key){ // Prints the square used to encrypt the message.
             for (int col = 0; col < char_Range; ++col){
                 out += encrypt.get((char)key).elementAt(col);
                 out += ' ';
